@@ -9,4 +9,5 @@ DOTFILES="/Users/biscii/.dotfiles/bin"
 ZPLUG="/Users/biscii/.zplug/bin"
 LOCAL_NPM="./node_modules/.bin"
 YARN="$HOME/.yarn/bin"
+
 export PATH=$HOMEBREW:$SBIN:$LOCAL_NPM:$YARN:$DOTFILES:$ZPLUG:$PATH

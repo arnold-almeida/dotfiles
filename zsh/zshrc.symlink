@@ -97,8 +97,8 @@ zplug "lukechilds/zsh-better-npm-completion", defer:2
 ## Syntax highlighting for commands, load last
 zplug "zsh-users/zsh-syntax-highlighting", from:github, defer:2
 
-## k is the new l yo
-# zplug "supercrabtree/k"
+## z to jump about
+zplug "rupa/z", from:github, defer:2, use:z.sh
 
 ## emoji cli
 # zplug "b4b4r07/emoji-cli", from:github, defer:2

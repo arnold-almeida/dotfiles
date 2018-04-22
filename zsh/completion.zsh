@@ -2,8 +2,11 @@ if [ -f `brew --prefix`/share/zsh/site-functions ]; then
   . `brew --prefix`/share/zsh/site-functions
 fi
 
-# matches case insensitive for lowercase
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
 
-# pasting with tabs doesn't perform completion
-zstyle ':completion:*' insert-tab pending
+# matches case insensitive for lowercase
+zstyle ':completion:*' menu select
+zstyle ':completion:*' completer _complete
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' '+l:|=* r:|=*'

@@ -1,0 +1,117 @@
+# shortcut to this dotfiles path is $ZSH
+export ZSH=$HOME/.dotfiles
+
+# Stash your environment variables in ~/.localrc. This means they'll stay out
+# of your main dotfiles repository (which may be public, like this one), but
+# you'll have access to them in your scripts.
+if [[ -a ~/.localrc ]]
+then
+  source ~/.localrc
+fi
+
+# all of our zsh files
+typeset -U config_files
+config_files=($ZSH/**/*.zsh)
+
+# # load the path files
+for file in ${(M)config_files:#*/path.zsh}
+do
+  # echo "Loading path $file"
+  source $file
+done
+
+# load everything but the path and completion files
+for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}
+do
+  # echo "Sourcing, $file"
+  source $file
+done
+
+# load every completion after autocomplete loads
+for file in ${(M)config_files:#*/completion.zsh}
+do
+  # echo "Adding completion, $file"
+  source $file
+done
+
+# initialize autocomplete here, otherwise functions won't be loaded
+autoload -Uz compinit && compinit
+
+# Setup pure
+# ln -s "$PWD/pure.zsh" "/usr/local/share/zsh/site-functions/prompt_pure_setup"
+# ln -s "$PWD/async.zsh" "/usr/local/share/zsh/site-functions/async"
+# autoload -U promptinit; promptinit
+# prompt pure
+
+unset config_files
+
+
+###############################################################################
+# zplug
+#   https://github.com/zplug/zplug
+#
+# Better zsh plugins
+#
+#   - Best way to do this seems to be the github clone method to "~/.zplug"
+#   - installing via homebrew seems to break
+#
+#   https://github.com/zplug/zplug
+#   https://github.com/zplug/zplug/wiki/Configurations
+#
+#  PLUGINS (TODO)
+#
+#  > https://github.com/zsh-users/zsh-autosuggestions
+#. > https://github.com/b4b4r07/enhancd
+#  > https://github.com/junegunn/fzf
+#  > encode64
+#  > node
+#  > jsontools
+#  > nyan
+#  > redis-cli
+#  > terminalapp
+#  > urltools
+#
+###############################################################################
+
+# Installs zplug to  ~/.zplug
+if [[ ! -d ~/.zplug ]] then
+  export ZPLUG_HOME=$HOME/.zplug
+  git clone https://github.com/zplug/zplug $ZPLUG_HOME
+fi
+
+# init the zplug so its available
+source $(brew --prefix zplug)/init.zsh
+
+# Plugins
+## Async for zsh
+zplug "mafredri/zsh-async", from:github, defer:0
+
+## Load completion library for those sweet [tab] squares
+zplug "zsh-users/zsh-completions", from:github, defer:2
+
+## npm completion
+zplug "lukechilds/zsh-better-npm-completion", defer:2
+
+## Syntax highlighting for commands, load last
+zplug "zsh-users/zsh-syntax-highlighting", from:github, defer:2
+
+## k is the new l yo
+# zplug "supercrabtree/k"
+
+## emoji cli
+# zplug "b4b4r07/emoji-cli", from:github, defer:2
+
+## Theme!
+# zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
+
+# Actually install plugins, prompt user input
+if ! zplug check --verbose; then
+    printf "Install zplug plugins? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+# Finally load plugins
+zplug load
+# zplug load --verbose # debug

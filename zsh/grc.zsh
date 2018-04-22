@@ -1,0 +1,7 @@
+# GRC colorizes nifty unix tools all over the place
+if (( $+commands[grc] )) && (( $+commands[brew] ))
+then
+  source `brew --prefix`/etc/grc.bashrc
+  # This does not work for some reason...
+  # source `brew --prelsfix`/etc/grc.zsh
+fi

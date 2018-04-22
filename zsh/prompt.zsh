@@ -1,6 +1,3 @@
-autoload colors && colors
-# http://github.com/ehrenmurdick/config/blob/master/zsh/prompt.zsh
-
 # Map the git binary
 if
   (( $+commands[git] ))
@@ -15,26 +12,19 @@ _git_branch() {
 }
 
 _git_dirty() {
-  IS_GIT_REPO="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
-
-  if [ "$IS_GIT_REPO" ]; then
-    if [[ $($git status --porcelain) == "" ]]
-    then
-      echo "on %{$fg_bold[green]%}$(git_prompt_info)%{$reset_color%}"
+  if git rev-parse --git-dir > /dev/null 2>&1; then
+    if [[ $(git diff --stat) != '' ]]; then
+      echo "on %{$fg_bold[red]%}$(_git_prompt_info)%{$reset_color%}"
     else
-      echo "on %{$fg_bold[red]%}$(git_prompt_info)%{$reset_color%}"
+      echo "on %{$fg_bold[green]%}$(_git_prompt_info)%{$reset_color%}"
     fi
   else
-    # Not in a git repo
-    echo "-"
+    :
   fi
 }
 
 _git_prompt_info () {
-  echo "git_prompt_info()"
-  echo "git_prompt_info()"
-  echo "git_prompt_info()"
- ref=$($git symbolic-ref HEAD 2>/dev/null) || return
+  ref=$($git symbolic-ref HEAD 2>/dev/null) || return
 # echo "(%{\e[0;33m%}${ref#refs/heads/}%{\e[0m%})"
  echo "${ref#refs/heads/}"
 }

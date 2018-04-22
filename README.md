@@ -2,10 +2,6 @@
 
 A collection of my "dotfiles" :v:
 
-
-
-
-
 If your terminal starts bugging out, you can turn enable verbose logging to
 
     setopt XTRACE VERBOSE

@@ -9,6 +9,11 @@
 #   alias la='gls -A --color'
 # fi
 
+# Quick and dirty cd ..
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+
 # Opens the ios-simulator bundled with xocde
 alias ios-simulator="open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app"
 
